@@ -30,247 +30,247 @@
     <Window.DataContext>
         <StaticResource ResourceKey="MiningVM"/>
     </Window.DataContext>
-    
-    <xctk:BusyIndicator IsBusy="{Binding IsBusy}" BusyContent="Completing operation...">
-        <Grid>
-            <Grid.ColumnDefinitions></Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
 
-            <Menu Grid.Row="0">
-                <MenuItem Header="_File">
-                    <MenuItem Header="_Minimize to Tray" Command="{Binding ElementName=LazyWay, Path=HideSelfCommand}" />
-                    <Separator />
-                    <MenuItem Header="Show _Graph" IsCheckable="True" IsChecked="{Binding ShowGraph}" />
-                    <MenuItem Header="_Settings" Command="{Binding ElementName=LazyWay, Path=SettingsCommand}">
-                        <MenuItem.Icon>
-                            <!-- http://findicons.com/icon/203341/system_config_services?id=334985 -->
-                            <Image Width="16" Source="/Images/gear.png" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <Separator />
-                    <MenuItem Header="_Exit" Command="{Binding  ElementName=LazyWay, Path=ExitCommand}" InputGestureText="Alt+F4" />
+    <Grid>
+        <Grid.ColumnDefinitions></Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Minimize to Tray" Command="{Binding ElementName=LazyWay, Path=HideSelfCommand}" />
+                <Separator />
+                <MenuItem Header="Show _Graph" IsCheckable="True" IsChecked="{Binding ShowGraph}" />
+                <MenuItem Header="_Settings" Command="{Binding ElementName=LazyWay, Path=SettingsCommand}">
+                    <MenuItem.Icon>
+                        <!-- http://findicons.com/icon/203341/system_config_services?id=334985 -->
+                        <Image Width="16" Source="/Images/gear.png" />
+                    </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Messages">
-                    <MenuItem Header="_Copy" Command="{Binding CopyCommand}">
-                        <MenuItem.Icon>
-                            <!-- http://findicons.com/icon/178655/page_2_copy -->
-                            <Image Width="16" Source="/Images/copy.png" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <Separator />
-                    <MenuItem Header="_Clear" Command="{Binding ClearCommand}"/>
+                <Separator />
+                <MenuItem Header="_Exit" Command="{Binding  ElementName=LazyWay, Path=ExitCommand}" InputGestureText="Alt+F4" />
+            </MenuItem>
+            <MenuItem Header="_Messages">
+                <MenuItem Header="_Copy" Command="{Binding CopyCommand}">
+                    <MenuItem.Icon>
+                        <!-- http://findicons.com/icon/178655/page_2_copy -->
+                        <Image Width="16" Source="/Images/copy.png" />
+                    </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_About" Command="{Binding ElementName=LazyWay, Path=AboutCommand}" />
+                <Separator />
+                <MenuItem Header="_Clear" Command="{Binding ClearCommand}"/>
+            </MenuItem>
+            <MenuItem Header="_About" Command="{Binding ElementName=LazyWay, Path=AboutCommand}" />
 
-                <MenuItem Foreground="Blue" Visibility="{Binding Converter={StaticResource VisibilityConverter}, Path=IsUpdateAvailable}">
-                    <MenuItem.Header>
-                        <Grid ClipToBounds="True">
-                            <TextBlock Name="Link">
-                                <Hyperlink Foreground="Blue" NavigateUri="https://github.com/jcw-/MiningController/releases/latest" RequestNavigate="Hyperlink_RequestNavigate">Update Available</Hyperlink>
-                            </TextBlock>
-
-                            <Canvas IsHitTestVisible="false" Panel.ZIndex="99">
-                                <Rectangle x:Name="ScreenGlintRect" Opacity="0.4" 
-                                               Width="{Binding Path=ActualWidth, ElementName=Link, Mode=Default}" 
-    		                                   Height="{Binding Path=ActualHeight, ElementName=Link, Mode=Default}" >
-                                    <Rectangle.Triggers>
-                                        <EventTrigger RoutedEvent="Rectangle.Loaded">
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimationUsingKeyFrames BeginTime="0:0:0" 
-                                                                                       Storyboard.TargetName="ScreenGlintRect" 
-                                                                                       Storyboard.TargetProperty="(Canvas.Left)"
-                                                                                       Duration="0:0:10"
-                                                                                       RepeatBehavior="Forever">
-                                                        <SplineDoubleKeyFrame KeyTime="0:0:0" Value="-200"/>
-                                                        <SplineDoubleKeyFrame KeyTime="0:0:3" Value="200"/>
-                                                    </DoubleAnimationUsingKeyFrames>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </EventTrigger>
-                                    </Rectangle.Triggers>
-
-                                    <Rectangle.Fill>
-                                        <LinearGradientBrush StartPoint="0,1" EndPoint="1,1">
-                                            <GradientStop Color="Transparent" Offset="0.0" />
-                                            <GradientStop Color="White" Offset="0.50" />
-                                            <GradientStop Color="Transparent" Offset="1" />
-                                        </LinearGradientBrush>
-                                    </Rectangle.Fill>
-                                </Rectangle>
-                            </Canvas>
-                        </Grid>
-                    </MenuItem.Header>
-                </MenuItem>
-            </Menu>
-
-            <ToolBarTray Grid.Row="1">
-                <ToolBar Band="1" BandIndex="1">
-                    <Button Command="{Binding SnoozeCommand}">
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="/Images/clock.png" Width="24" Height="24" /><!-- http://findicons.com/icon/98989/clock -->
-                            <TextBlock Margin="5,0" VerticalAlignment="Center">Snooze</TextBlock>
-                            <ComboBox ItemsSource="{Binding SnoozeDurations}" SelectedItem="{Binding SnoozeDuration, Mode=TwoWay}" />                            
-                        </StackPanel>
-                    </Button>
-                    <Separator />
-                    <Button Command="{Binding ToggleMinerCommand}">
-                        <TextBlock ToolTip="Toggle miner visibility">
-                            <TextBlock.Style>
-                                <Style TargetType="{x:Type TextBlock}">
-                                    <Setter Property="Text" Value="Hide Miner"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ShowMiner}" Value="False">
-                                            <Setter Property="Text" Value="Show Miner"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
+            <MenuItem Foreground="Blue" Visibility="{Binding Converter={StaticResource VisibilityConverter}, Path=IsUpdateAvailable}">
+                <MenuItem.Header>
+                    <Grid ClipToBounds="True">
+                        <TextBlock Name="Link">
+                            <Hyperlink Foreground="Blue" NavigateUri="https://github.com/jcw-/MiningController/releases/latest" RequestNavigate="Hyperlink_RequestNavigate">Update Available</Hyperlink>
                         </TextBlock>
-                    </Button>
-                </ToolBar>
-            </ToolBarTray>
 
-            <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <ItemsControl ItemsSource="{Binding Messages}" local:ScrollToEndBehavior.AutoScrollToEnd="True" Padding="2" />
-            </ScrollViewer>
+                        <Canvas IsHitTestVisible="false" Panel.ZIndex="99">
+                            <Rectangle x:Name="ScreenGlintRect" Opacity="0.4" 
+                                            Width="{Binding Path=ActualWidth, ElementName=Link, Mode=Default}" 
+    		                                Height="{Binding Path=ActualHeight, ElementName=Link, Mode=Default}" >
+                                <Rectangle.Triggers>
+                                    <EventTrigger RoutedEvent="Rectangle.Loaded">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimationUsingKeyFrames BeginTime="0:0:0" 
+                                                                                    Storyboard.TargetName="ScreenGlintRect" 
+                                                                                    Storyboard.TargetProperty="(Canvas.Left)"
+                                                                                    Duration="0:0:10"
+                                                                                    RepeatBehavior="Forever">
+                                                    <SplineDoubleKeyFrame KeyTime="0:0:0" Value="-200"/>
+                                                    <SplineDoubleKeyFrame KeyTime="0:0:3" Value="200"/>
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Rectangle.Triggers>
 
-            <Border x:Name="MyChart" Grid.Row="3" Visibility="{Binding ShowGraph, Converter={StaticResource VisibilityConverter}}" Style="{StaticResource containerStyle}">
-                <Grid>
-                    <Grid.Resources>
-                        <SolidColorBrush Color="White" Opacity="0.6" x:Key="transBackground" />
-                    </Grid.Resources>
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush StartPoint="0,1" EndPoint="1,1">
+                                        <GradientStop Color="Transparent" Offset="0.0" />
+                                        <GradientStop Color="White" Offset="0.50" />
+                                        <GradientStop Color="Transparent" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                        </Canvas>
+                    </Grid>
+                </MenuItem.Header>
+            </MenuItem>
+        </Menu>
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30" />
-                    </Grid.RowDefinitions>
-
-                    <Border Grid.Row="0">
-                        <sparrow:SparrowChart RenderingMode="WritableBitmap" ContainerBorderStyle="{StaticResource noBorder}" local:SizeObserverBehavior.Observe="True" local:SizeObserverBehavior.ObservedWidth="{Binding GraphWidth, Mode=OneWayToSource}">
-                            <sparrow:SparrowChart.XAxis>
-                                <sparrow:DateTimeXAxis ShowCrossLines="False" Interval="1:0:0" CrossLineStyle="{StaticResource crossLineStyle}" Visibility="Collapsed" />
-                            </sparrow:SparrowChart.XAxis>
-                            <sparrow:SparrowChart.YAxis>
-                                <sparrow:LinearYAxis MinValue="0" CrossLineStyle="{StaticResource crossLineStyle}" ShowCrossLines="False" Interval="100" Visibility="Collapsed" />
-                            </sparrow:SparrowChart.YAxis>
-                            <sparrow:AreaSeries PointsSource="{Binding DataPointsHashRate}" XPath="TimeLocal" YPath="Value" Stroke="#FF117DBB" StrokeThickness="1" Fill="#11117DBB" />
-                        </sparrow:SparrowChart>
-                    </Border>
-
-                    <ListBox Background="{StaticResource transBackground}" Margin="0" Padding="0" BorderThickness="0" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left" ItemsSource="{Binding GraphTimeSpans}" SelectedItem="{Binding SelectedGraphTimeSpan}">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"></StackPanel>
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Margin="2,0" Text="{Binding Path=Label}" Cursor="Hand" Foreground="{x:Static SystemColors.HotTrackBrush}">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Style.Triggers>
-                                                <Trigger Property="TextBlock.IsMouseOver" Value="True">
-                                                    <Setter Property="TextBlock.TextDecorations" Value="Underline" />
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem">
+        <ToolBarTray Grid.Row="1">
+            <ToolBar Band="1" BandIndex="1">
+                <Button Command="{Binding SnoozeCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Images/clock.png" Width="24" Height="24" />
+                        <!-- http://findicons.com/icon/98989/clock -->
+                        <TextBlock Margin="5,0" VerticalAlignment="Center">Snooze</TextBlock>
+                        <ComboBox ItemsSource="{Binding SnoozeDurations}" SelectedItem="{Binding SnoozeDuration, Mode=TwoWay}" />
+                    </StackPanel>
+                </Button>
+                <Separator />
+                <Button Command="{Binding ToggleMinerCommand}">
+                    <TextBlock ToolTip="Toggle miner visibility">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Text" Value="Hide Miner"/>
                                 <Style.Triggers>
-                                    <Trigger Property="ListBoxItem.IsMouseOver" Value="True">
-                                        <Setter Property="ListBoxItem.Background" Value="White" />
-                                    </Trigger>
-                                </Style.Triggers>
-
-                                <Style.Resources>
-                                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#E0E0F0" Opacity="0.9" />
-                                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#E0E0F0" Opacity="0.9" />
-                                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#E0E0F0" Opacity="0.9" />
-                                </Style.Resources>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-                    </ListBox>
-                </Grid>
-            </Border>
-
-            <StatusBar Grid.Row="4">
-                <TextBlock>
-                    <Run Text="Status:" />                    
-                    <Run>
-                        <Run.Style>
-                            <Style TargetType="{x:Type Run}">
-                                <Setter Property="Text" Value="Disconnected"/>
-                                <Setter Property="Foreground" Value="Red" />
-                                <Style.Triggers>                                    
-                                    <DataTrigger Binding="{Binding IsConnected}" Value="True">
-                                        <Setter Property="Text" Value="Connected"/>
-                                        <Setter Property="Foreground" Value="Green" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsImportantProcessDetected}" Value="True">
-                                        <Setter Property="Text" Value="Suspended"/>
-                                        <Setter Property="Foreground" Value="Red" />
+                                    <DataTrigger Binding="{Binding ShowMiner}" Value="False">
+                                        <Setter Property="Text" Value="Show Miner"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </Run.Style>    
-                    </Run>
-                </TextBlock>
-                <Separator/>
-                <TextBlock>
-                    <Run Text="User:" />                    
-                    <Run Text="{Binding Activity}" />
-                </TextBlock>                
-                <Separator Visibility="{Binding IsSnoozeEnabled, Converter={StaticResource VisibilityConverter}}" />
-                <TextBlock Text="{Binding SnoozeDurationRemaining}" Visibility="{Binding IsSnoozeEnabled, Converter={StaticResource VisibilityConverter}}" />
-                <Separator Visibility="{Binding IsUserActive, Converter={StaticResource VisibilityConverter}}" />
-                <TextBlock Visibility="{Binding IsUserActive, Converter={StaticResource VisibilityConverter}}">
-                    <Run Text="Idle Time:" />                    
-                    <Run Text="{Binding IdleTime, StringFormat=hh\\:mm\\:ss}" />
-                </TextBlock>
-                <Button Padding="0" FontFamily="Tahoma" FontSize="10" Command="{Binding ResumeCommand}" Visibility="{Binding IsSnoozeEnabled, Converter={StaticResource VisibilityConverter}}">Resume Now</Button>
-            </StatusBar>
-            
-            <tb:TaskbarIcon
-                    Name="TrayIcon"
-                    ToolTipText="Mining Controller"
-                    IconSource="/Images/cryptocoin.ico"
-                    DoubleClickCommand="{Binding ElementName=LazyWay, Path=ShowSelfCommand}"
-                    MenuActivation="LeftOrRightClick">
-                <tb:TaskbarIcon.TrayToolTip>
-                    <Border
-                        Background="WhiteSmoke"
-                        BorderBrush="Black"
-                        BorderThickness="1"
-                        CornerRadius="4"
-                        Opacity="1"
-                        Width="300"
-                        Height="50">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
 
-                            <TextBlock Grid.Row="0" Margin="5" Text="{Binding ApplicationTitle}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Messages}" local:ScrollToEndBehavior.AutoScrollToEnd="True" Padding="2" />
+        </ScrollViewer>
 
-                            <Rectangle Name="TrayGraph" Grid.Row="1" />
-                        </Grid>
-                    </Border>
-                </tb:TaskbarIcon.TrayToolTip>
-            </tb:TaskbarIcon>
-            
-        </Grid>
-    </xctk:BusyIndicator>
+        <Border x:Name="MyChart" Grid.Row="3" Visibility="{Binding ShowGraph, Converter={StaticResource VisibilityConverter}}" Style="{StaticResource containerStyle}">
+            <Grid>
+                <Grid.Resources>
+                    <SolidColorBrush Color="White" Opacity="0.6" x:Key="transBackground" />
+                </Grid.Resources>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0">
+                    <sparrow:SparrowChart RenderingMode="WritableBitmap" ContainerBorderStyle="{StaticResource noBorder}" local:SizeObserverBehavior.Observe="True" local:SizeObserverBehavior.ObservedWidth="{Binding GraphWidth, Mode=OneWayToSource}">
+                        <sparrow:SparrowChart.XAxis>
+                            <sparrow:DateTimeXAxis ShowCrossLines="False" Interval="1:0:0" CrossLineStyle="{StaticResource crossLineStyle}" Visibility="Collapsed" />
+                        </sparrow:SparrowChart.XAxis>
+                        <sparrow:SparrowChart.YAxis>
+                            <sparrow:LinearYAxis MinValue="0" CrossLineStyle="{StaticResource crossLineStyle}" ShowCrossLines="False" Interval="100" Visibility="Collapsed" />
+                        </sparrow:SparrowChart.YAxis>
+                        <sparrow:AreaSeries PointsSource="{Binding DataPointsHashRate}" XPath="TimeLocal" YPath="Value" Stroke="#FF117DBB" StrokeThickness="1" Fill="#11117DBB" />
+                    </sparrow:SparrowChart>
+                </Border>
+
+                <ListBox Background="{StaticResource transBackground}" Margin="0" Padding="0" BorderThickness="0" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left" ItemsSource="{Binding GraphTimeSpans}" SelectedItem="{Binding SelectedGraphTimeSpan}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"></StackPanel>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="2,0" Text="{Binding Path=Label}" Cursor="Hand" Foreground="{x:Static SystemColors.HotTrackBrush}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <Trigger Property="TextBlock.IsMouseOver" Value="True">
+                                                <Setter Property="TextBlock.TextDecorations" Value="Underline" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Style.Triggers>
+                                <Trigger Property="ListBoxItem.IsMouseOver" Value="True">
+                                    <Setter Property="ListBoxItem.Background" Value="White" />
+                                </Trigger>
+                            </Style.Triggers>
+
+                            <Style.Resources>
+                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#E0E0F0" Opacity="0.9" />
+                                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#E0E0F0" Opacity="0.9" />
+                                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#E0E0F0" Opacity="0.9" />
+                            </Style.Resources>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+            </Grid>
+        </Border>
+
+        <StatusBar Grid.Row="4">
+            <TextBlock>
+                <Run Text="Status:" />                    
+                <Run>
+                    <Run.Style>
+                        <Style TargetType="{x:Type Run}">
+                            <Setter Property="Text" Value="Disconnected"/>
+                            <Setter Property="Foreground" Value="Red" />
+                            <Style.Triggers>                                    
+                                <DataTrigger Binding="{Binding IsConnected}" Value="True">
+                                    <Setter Property="Text" Value="Connected"/>
+                                    <Setter Property="Foreground" Value="Green" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsImportantProcessDetected}" Value="True">
+                                    <Setter Property="Text" Value="Suspended"/>
+                                    <Setter Property="Foreground" Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Run.Style>    
+                </Run>
+            </TextBlock>
+            <Separator/>
+            <TextBlock>
+                <Run Text="User:" />                    
+                <Run Text="{Binding Activity}" />
+            </TextBlock>
+            <Separator Visibility="{Binding IsSnoozeEnabled, Converter={StaticResource VisibilityConverter}}" />
+            <TextBlock Text="{Binding SnoozeDurationRemaining}" Visibility="{Binding IsSnoozeEnabled, Converter={StaticResource VisibilityConverter}}" />
+            <Separator Visibility="{Binding IsUserActive, Converter={StaticResource VisibilityConverter}}" />
+            <TextBlock Visibility="{Binding IsUserActive, Converter={StaticResource VisibilityConverter}}">
+                <Run Text="Idle Time:" />                    
+                <Run Text="{Binding IdleTime, StringFormat=hh\\:mm\\:ss}" />
+            </TextBlock>
+            <Button Padding="0" FontFamily="Tahoma" FontSize="10" Command="{Binding ResumeCommand}" Visibility="{Binding IsSnoozeEnabled, Converter={StaticResource VisibilityConverter}}">Resume Now</Button>
+        </StatusBar>
+
+        <tb:TaskbarIcon
+                Name="TrayIcon"
+                ToolTipText="Mining Controller"
+                IconSource="/Images/cryptocoin.ico"
+                DoubleClickCommand="{Binding ElementName=LazyWay, Path=ShowSelfCommand}"
+                MenuActivation="LeftOrRightClick">
+            <tb:TaskbarIcon.TrayToolTip>
+                <Border
+                    Background="WhiteSmoke"
+                    BorderBrush="Black"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    Opacity="1"
+                    Width="300"
+                    Height="50">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Margin="5" Text="{Binding ApplicationTitle}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+                        <Rectangle Name="TrayGraph" Grid.Row="1" />
+                    </Grid>
+                </Border>
+            </tb:TaskbarIcon.TrayToolTip>
+        </tb:TaskbarIcon>
+
+    </Grid>
+
 </Window>
