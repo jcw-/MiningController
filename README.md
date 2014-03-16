@@ -1,11 +1,20 @@
+-----
+
+####Build Status
+
+| CI (Stable) | CI (Unstable)
+| :-------------: | :-------------: |
+| ![stable](https://ci.appveyor.com/api/projects/status/2irfgpw9gaqw7yfu) | ![unstable](https://ci.appveyor.com/api/projects/status/ecbxls15udo416xt) |
+
+-----
+
 Mining Controller
-=========================
+-----
 
 An sgminer/cgminer controller for your Windows computer.
 
 
-About
------
+####About
 
 Do you want to mine a cryptocurrency on your computer but are concerned with the graphics lag that is introduced?
 
@@ -14,20 +23,18 @@ This .NET 4.5 app does not replace your miner program, but it will control it, t
 In addition, it acts as a watchdog, ensure the miner is running when it is supposed to, and even allows you to hide the miner window if you prefer.
 
 
-Supported Platforms
------
+####Supported Platforms
+
 
 Tested on Windows 7 against cgminer 3.7.2 and sgminer 4.1.0.
 
 
-Getting Started
------
+####Getting Started
 
 See [Getting Started][gs] for configuration details, including how to automatically launch Mining Controller when your computer starts up.
 
 
-Features
------
+####Features
 
  - Reduces mining intensity when computer is in use
  - Pauses mining while important processes (configured by the user) are running
@@ -39,8 +46,7 @@ Features
  - Tray tooltip includes current hashrate and graph
 
 
-Screenshots
------
+####Screenshots
 
 ![screenshot1](http://jcw-.github.io/MiningController/images/screenshots/Screenshot1.png)
 
@@ -51,32 +57,27 @@ Screenshots
 ![tray hover](http://jcw-.github.io/MiningController/images/screenshots/TrayHover.png)
 
 
-Problems?
------
+####Problems?
 
 If you find an issue, please visit the [issue tracker][issues] and report it.
 
 
-License
------
+####License
 
-[MIT License][license])
+[MIT License][license]
 
 
-Development Documentation
------
+####Development Documentation
 
 https://github.com/jcw-/MiningController/wiki/
 
 
-How to Contribute
------
+####How to Contribute
 
 Contributions are welcome! Submit an [issue][issues] or become familiar with the [development documentation][dev] and submit a pull request. 
 
 
-Credits
------
+####Credits
 
 See [NOTICE][notice].
 
