@@ -1,0 +1,14 @@
+Mining Controller
+Copyright 2014 https://github.com/jcw-
+
+This product includes the following NuGet packages:
+
+  * BugFreak, BugFreak.WPF - https://github.com/Agilefreaks/winbugfreak
+  * Hardcodet WPF NotifyIcon - https://www.nuget.org/packages/Hardcodet.NotifyIcon.Wpf/
+  * Json.NET - https://github.com/JamesNK/Newtonsoft.Json
+  * Moq - https://github.com/Moq/moq
+  * protobuf-net - https://code.google.com/p/protobuf-net/
+  * Sparrow.Chart.Wpf - https://sparrowtoolkit.codeplex.com/
+  * Octokit - https://github.com/octokit/octokit.net
+
+

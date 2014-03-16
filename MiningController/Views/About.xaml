@@ -1,0 +1,18 @@
+﻿<Window x:Class="MiningController.About"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="About Mining Controller" Height="400" Width="400" MinHeight="200" MinWidth="300" Name="LazyWay" ResizeMode="CanResizeWithGrip" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+    <Grid DataContext="{Binding ElementName=LazyWay}" Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0" Margin="0,10">
+            <Run Text="Version: " />
+            <Run Text="{Binding Version, Mode=OneWay}" />
+        </TextBlock>
+
+        <RichTextBox Name="AboutContent" Grid.Row="1" IsReadOnly="True" IsDocumentEnabled="True" ScrollViewer.VerticalScrollBarVisibility="Auto" />
+    </Grid>
+</Window>
