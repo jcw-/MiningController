@@ -20,7 +20,7 @@ Do you want to mine a cryptocurrency on your computer but are concerned with the
 
 This .NET 4.5 app does not replace your miner program, but it will control it, throttling it down while your computer is in use, and even pausing mining while certain programs (such as games) are open. When your computer is idle, it will cause the miner to mine at your maximum settings.
 
-In addition, it acts as a watchdog, ensure the miner is running when it is supposed to, and even allows you to hide the miner window if you prefer.
+In addition, it acts as a watchdog, ensuring the miner is running when it is supposed to, and even allows you to hide the miner window if you prefer.
 
 
 ####Supported Platforms
@@ -48,13 +48,13 @@ See [Getting Started][gs] for configuration details, including how to automatica
 
 ####Screenshots
 
-![screenshot1](http://jcw-.github.io/MiningController/images/screenshots/Screenshot1.png)
+![screenshot1](https://raw.github.com/jcw-/MiningController/gh-pages/images/screenshots/Screenshot1.png)
 
-![screenshot2](http://jcw-.github.io/MiningController/images/screenshots/Screenshot2.png)
+![screenshot2](https://raw.github.com/jcw-/MiningController/gh-pages/images/screenshots/Screenshot2.png)
 
-![screenshot3](http://jcw-.github.io/MiningController/images/screenshots/Screenshot3.png)
+![screenshot3](https://raw.github.com/jcw-/MiningController/gh-pages/images/screenshots/Screenshot3.png)
 
-![tray hover](http://jcw-.github.io/MiningController/images/screenshots/TrayHover.png)
+![tray hover](https://raw.github.com/jcw-/MiningController/gh-pages/images/screenshots/TrayHover.png)
 
 
 ####Problems?
