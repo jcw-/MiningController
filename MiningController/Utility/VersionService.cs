@@ -78,7 +78,15 @@ namespace MiningController
 
         private static string StripPostFix(string version)
         {
-            var index = version.IndexOf("-");
+            version = StripPostFix(version, "-");
+            version = StripPostFix(version, "+");
+
+            return version;
+        }
+
+        private static string StripPostFix(string version, string start)
+        {
+            var index = version.IndexOf(start);
             if (index > 0)
             {
                 version = version.Substring(0, index);
