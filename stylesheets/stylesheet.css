@@ -284,15 +284,6 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
-/*
-body {
-	line-height: 1;
-}
-
-ol, ul {
-	list-style: none;
-}
-*/
 blockquote, q {
 	quotes: none;
 }
@@ -389,7 +380,7 @@ aside a.button {
 @media only screen and (max-width: 959px) {}
 
 /* Tablet Portrait size to standard 960 (devices and browsers) */
-@media only screen and (min-width: 768px) and (max-width: 959px) {
+@media only screen and (min-width: 768px) and (max-width: 966px) {
   .inner {
     width: 740px;
   }
@@ -425,9 +416,6 @@ aside a.button {
     padding: 20px 0;
     min-height: 0;
   }
-  aside#sidebar a.button {
-    display: none;
-  }
   #main-content h1:before,
   #main-content h2:before,
   #main-content h3:before,
@@ -447,7 +435,7 @@ aside a.button {
   }
 
   .inner {
-    min-width: 320px;
+    min-width: 298px;
     max-width: 480px;
   }
 
