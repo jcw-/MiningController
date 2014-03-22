@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>mining-controller</id>
+    <title>Mining Controller</title>
+    <version>$version$</version>
+    <authors>jcw</authors>
+    <owners>jcw</owners>
+    <iconUrl>https://raw.githubusercontent.com/jcw-/MiningController/master/MiningController/Images/cryptocoin.png</iconUrl>
+    <licenseUrl>https://raw.githubusercontent.com/jcw-/MiningController/master/LICENSE</licenseUrl>
+    <projectUrl>http://jcw-.github.io/MiningController/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>An sgminer/cgminer controller for your Windows computer</description>
+    <summary>An sgminer/cgminer controller for your Windows computer</summary>
+    <tags>MiningController mining litecoin sgminer cgminer cryptocurrency</tags>
+  </metadata>
+  <files>
+    <file src="ChocolateyInstall.ps1" target="tools"/>
+  </files>       
+</package>
