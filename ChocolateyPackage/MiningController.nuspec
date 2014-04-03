@@ -16,5 +16,6 @@
   </metadata>
   <files>
     <file src="ChocolateyInstall.ps1" target="tools"/>
+    <file src="MiningController.exe.gui" target="tools"/>
   </files>       
 </package>
