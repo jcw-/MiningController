@@ -23,6 +23,8 @@
             <PackageSource Include="https://www.nuget.org/api/v2/" />
             <PackageSource Include="https://my-nuget-source/nuget/" />
         -->
+        <PackageSource Include="https://www.nuget.org/api/v2/" />
+        <PackageSource Include="https://ci.appveyor.com/nuget/sparrowtoolkit-sfwbd18koy9y" />
     </ItemGroup>
 
     <PropertyGroup Condition=" '$(OS)' == 'Windows_NT'">

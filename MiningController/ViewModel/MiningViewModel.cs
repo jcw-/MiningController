@@ -366,8 +366,7 @@ namespace MiningController.ViewModel
                         {
                             // update series
                             var hashRateData = summaryData.Select(s => new DataPoint() { TimeLocal = s.TimestampUtc.ToLocalTime(), Value = s.TotalKiloHashesAverage5Sec });
-                            PerformFlatLineFix(hashRateData);
-
+                            
                             this.DataPointsHashRate = new ObservableCollection<DataPoint>(hashRateData);
                             this.OnPropertyChanged("DataPointsHashRate");
                         });
@@ -375,20 +374,6 @@ namespace MiningController.ViewModel
                     this.DataPointsHashRate.Clear();
                     this.summaryDataManager.LoadDataAsync(startUtc, value.Span, Math.Max(this.GraphWidth, InitialWindowWidth), callback);
                 }
-            }
-        }
-
-        private static void PerformFlatLineFix(IEnumerable<DataPoint> hashRateData, DataPoint referencePoint = null)
-        {
-            // workaround for charting component unable to handle displaying a straight line (if all viewable data points are equal to the same value it throws an overflow exception)
-            if (referencePoint == null)
-            {
-                referencePoint = hashRateData.FirstOrDefault();
-            }
-            
-            if (hashRateData.Count() > 0 && hashRateData.All(p => p.Value == referencePoint.Value))
-            {
-                referencePoint.Value += 1.0 / 10000;
             }
         }
 
@@ -549,8 +534,6 @@ namespace MiningController.ViewModel
             var minimumGap = TimeSpan.FromMilliseconds(this.SelectedGraphTimeSpan.Span.TotalMilliseconds / Math.Max(this.GraphWidth, InitialWindowWidth));
             if (this.DataPointsHashRate.Count == 0 || (dataPoint.TimeLocal - this.DataPointsHashRate.Last().TimeLocal) >= minimumGap)
             {
-                PerformFlatLineFix(this.DataPointsHashRate, dataPoint);                
-
                 this.DataPointsHashRate.Add(dataPoint);
             }
 
@@ -566,23 +549,7 @@ namespace MiningController.ViewModel
         private void TrimToGraphRange(IList<DataPoint> data, TimeSpan range)
         {
             var start = DateTime.Now - range;
-
-            // 1. make a copy of what the datapoints look like trimmed
-            var copy = new List<DataPoint>(data);
-            TrimData(copy, start);
-                        
-            // 2. perform a flat line fix on it to adjust the correct individual datapoint within the collection
-            PerformFlatLineFix(copy);
-                        
-            // 3. trim the points from the actual list, which triggers view model updates to the graph component - we can now be assured that there will not be a flat line in the result, even with points removed
-            var beforeCount = data.Count;
             TrimData(data, start);
-
-            // although the flat-line fix that is currently in place should prevent this, i'm leaving this here in case there is another edge case that crops up
-            if (data.Count > 0 && AreAllPointsEqual(data))
-            {
-                throw new Exception(string.Format("Unexpected flat line detected in graph series - this results in an overflow exception in the third-party library. BeforeCount [{0}], AfterCount[{1}]", beforeCount, data.Count));
-            }
         }
 
         private static void TrimData(IList<DataPoint> data, DateTime start)
